@@ -3,6 +3,7 @@ package com.ll.exam.app_2022_09_22.app.base;
 import com.ll.exam.app_2022_09_22.app.cart.service.CartService;
 import com.ll.exam.app_2022_09_22.app.member.entity.Member;
 import com.ll.exam.app_2022_09_22.app.member.service.MemberService;
+import com.ll.exam.app_2022_09_22.app.order.entity.Order;
 import com.ll.exam.app_2022_09_22.app.order.service.OrderService;
 import com.ll.exam.app_2022_09_22.app.product.entity.Product;
 import com.ll.exam.app_2022_09_22.app.product.entity.ProductOption;
@@ -34,8 +35,10 @@ public class DevInitData {
             //만원 충전
             memberService.addCash(member1, 10_000, "충전_무통장입금");
             memberService.addCash(member1, 20_000, "충전_무통장입금");
+            //5천원 사용
             memberService.addCash(member1, -5_000, "충전_무통장입금");
-
+            // 삼십만원 충전
+            memberService.addCash(member1, 300_000, "충전__무통장입금");
 
             long restCash = memberService.getRestCash(member1);
 
@@ -49,7 +52,10 @@ public class DevInitData {
             cartService.addItem(member1, productOption__RED_44, 2); // productOption__RED_44 총 수량 3
             cartService.addItem(member1, productOption__BLUE_44, 1); // productOption__BLUE_44 총 수량 1
 
-            orderService.createFromCart(member1);
+            Order order1 = orderService.createFromCart(member1);
+
+            int order1PayPrice = order1.calculatePayPrice();
+            orderService.payByRestCashOnly(order1);
         };
     }
 }
