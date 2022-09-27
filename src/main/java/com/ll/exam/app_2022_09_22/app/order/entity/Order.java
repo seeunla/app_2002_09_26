@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import org.aspectj.weaver.ast.Or;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -61,5 +62,15 @@ public class Order extends BaseEntity {
         for ( OrderItem orderItem : orderItems) {
             orderItem.setRefundDone();
         }
+    }
+
+
+    public int getPayPrice() {
+        int payPrice = 0;
+        for (OrderItem orderItem : orderItems) {
+            payPrice += orderItem.getPayPrice();
+        }
+
+        return payPrice;
     }
 }
